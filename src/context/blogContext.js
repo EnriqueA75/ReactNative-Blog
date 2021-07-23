@@ -1,23 +1,63 @@
-import React, { createContext } from 'react'
+import createDataContext from './createDataContext'
 
-const blogContext = createContext()
+const blogReducer = (state, action) => {
+    switch(action.type){
+        case 'add_blogpost':
+            return [
+                ...state, 
+                {
+                    id: Math.floor(Math.random() * 99999),
+                    title: action.payload.title,
+                    content: action.payload.content
+                }
+            ]
+            
+        case 'delete_blogpost':
+            return state.filter((blogPost) => blogPost.id !== action.payload)
 
-export const BlogProvider = ({children}) => {
+        case 'edit_blogpost':
+            return state.map((blogPost) => {
+                return blogPost.id === action.payload.id ? action.payload : blogPost
+            })
 
-    const blogPosts = [
-        {title: 'Blog Post #1'},
-        {title: 'Blog Post #2'},
-        {title: 'Blog Post #3'},
-    ]
+        default:
+            return state
+        }
+    }
 
-    return (
-        <blogContext.Provider
-            value={
-                blogPosts
-            }
-        >
-            {children}
-        </blogContext.Provider>
-    )
+const addBlogPost = (dispatch) => {
+    return (title, content, callback) => {        
+        dispatch({
+            type: 'add_blogpost',
+            payload:{title, content}
+        })
+        if(callback){
+            callback()
+        }
+    }
 }
-export default blogContext
+const deleteBlogPost = (dispatch) => {
+    return (id) => {
+        dispatch({
+            type: 'delete_blogpost',
+            payload: id
+        })
+    }
+}
+const editBlogPost = (dispatch) => {
+    return (id, title, content, callback) => {
+        dispatch({
+            type: 'edit_blogpost',
+            payload: {id, title, content}
+        })
+        if(callback){
+            callback()
+        }
+    }
+}
+
+export const { Context, Provider} = createDataContext(
+    blogReducer,
+    { addBlogPost, deleteBlogPost, editBlogPost },
+    [{title: "first post", content: "first content", id: 1}]
+)

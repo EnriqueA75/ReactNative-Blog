@@ -1,12 +1,14 @@
 import React, {  useContext } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { Context } from '../context/BlogContext';
+//import { Context } from '../context/BlogContext';
 import { Feather } from '@expo/vector-icons'
+import blogContext from '../context/blogContext';
 
 const ShowScreen = ({navigation}) => {
-    const { state } = useContext(Context)
+
+    const { blogPosts } = useContext(blogContext)
     const id = navigation.getParam('id')
-    const blogPost = state.find((blogPost) => blogPost.id === id)
+    const blogPost = blogPosts.find((blogPost) => blogPost.id === id)
 
     return ( 
         <View>
@@ -19,7 +21,6 @@ const ShowScreen = ({navigation}) => {
         </View>
     );
 }
-
 ShowScreen.navigationOptions = ({ navigation }) => {
     return {
         headerRight: () => (

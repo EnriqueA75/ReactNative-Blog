@@ -26,7 +26,7 @@ const BlogPostForm = ({onSubmit, initialValues}) => {
                 style={styles.btnStl}
                 onPress={() => onSubmit(title, content)}
             >
-                <Text style={styles.btnTxtStl}>Save</Text>
+                <Text style={styles.btnTxtStl}>yep</Text>
             </TouchableOpacity>
         </View>
      );

@@ -1,10 +1,12 @@
 import React, { useContext } from 'react'
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { Context } from '../context/BlogContext';
+import { StyleSheet, View } from 'react-native';
+//import { Context } from '../context/BlogContext';
 import BlogPostForm from '../components/BlogPostForm';
+import blogContext from '../context/blogContext';
+
 const CreateScreen = ( {navigation }) => {
 
-    const { addBlogPost } = useContext(Context)
+    const { addBlogPost } = useContext(blogContext)
 
     return ( 
         <View>
